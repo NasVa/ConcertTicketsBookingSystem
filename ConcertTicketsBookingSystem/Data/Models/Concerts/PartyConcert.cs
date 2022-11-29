@@ -2,6 +2,6 @@
 {
     public class PartyConcert : Concert
     {
-        private byte ageLimit { get; set; }
+        public byte ageLimit { get; set; }
     }
 }

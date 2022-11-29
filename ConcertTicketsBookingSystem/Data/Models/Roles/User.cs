@@ -1,11 +1,13 @@
-﻿namespace ConcertTicketsBookingSystem.Models.Roles
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace ConcertTicketsBookingSystem.Models.Roles
 {
-    public class User
+    public class User : IdentityUser
     {
-        private int Id {get; set; }
-        private string Name { get; set; }
-        private string Surname { get; set; }
-        private List<Ticket> Tickets { get; set; }
+        public int Id {get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public List<Ticket> Tickets { get; set; }
 
         //booking ticket
         //buying ticket

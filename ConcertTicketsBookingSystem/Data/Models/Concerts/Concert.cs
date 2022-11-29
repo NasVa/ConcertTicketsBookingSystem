@@ -2,12 +2,12 @@
 {
     public abstract class Concert
     {
-        private int id { get; set; }
-        private string name { get; set; }
-        private string performer { get; set; }
-        private int ticketsNum { get; set; }
-        private DateTime dataTime { get; set; }
-        private string address { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string performer { get; set; }
+        public int ticketsNum { get; set; }
+        public DateTime dataTime { get; set; }
+        public string address { get; set; }
     }
 }
 
