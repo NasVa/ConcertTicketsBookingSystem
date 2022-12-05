@@ -1,11 +1,23 @@
+using ConcertTicketsBookingSystem;
+using ConcertTicketsBookingSystem.Data.Interfaces;
+using ConcertTicketsBookingSystem.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
+builder.Services.AddTransient<IConcertRepository, ConcertRepository>();
+builder.Services.AddTransient<ITicketRepository, TicketRepository>();
+
 
 builder.Services.AddControllersWithViews();
-//builder.Services.AddDbContext<ApplicationDBContext>();
+
+//builder.Services.AddHttpContextAccessor();
+builder.Services.AddDbContext<ApplicationDBContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
 var app = builder.Build();
 
