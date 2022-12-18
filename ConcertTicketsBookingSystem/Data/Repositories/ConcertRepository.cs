@@ -38,6 +38,10 @@ namespace ConcertTicketsBookingSystem.Data.Repositories
             return await context.concerts.FindAsync(id);
         }
 
+        public List<string> GetConcertTypes()
+        {
+            return Enum.GetNames(typeof(concertType)).ToList();
+        }
         public async Task UpdateAsync(Concert concert)
         {
             //context.Entry(concert).State = EntityState.Modified;

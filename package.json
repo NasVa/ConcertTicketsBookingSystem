@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.3",
+    "react-bootstrap": "^2.7.0"
+  },
+  "devDependencies": {
+    "run-script-os": "^1.1.6"
+  }
+}

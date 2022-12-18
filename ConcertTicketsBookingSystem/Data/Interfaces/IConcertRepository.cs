@@ -13,5 +13,7 @@ namespace ConcertTicketsBookingSystem.Data.Interfaces
         Task<Concert> GetByIdAsync(int id);
 
         Task DeleteAsync(Concert concert);
+
+        List<string> GetConcertTypes();
     }
 }
