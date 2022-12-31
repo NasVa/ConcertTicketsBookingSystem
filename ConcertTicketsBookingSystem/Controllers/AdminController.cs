@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ConcertTicketsBookingSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admin")]
     [ApiController]
     public class AdminController : ControllerBase
     {
@@ -17,9 +17,19 @@ namespace ConcertTicketsBookingSystem.Controllers
         }
 
         [HttpPost("concert/create")]
-        public async Task CreateConcert([FromForm] IFormCollection formData)
+        public async Task<string> CreateConcert([FromForm] IFormCollection formData)
         {
+
             var concert = new PartyConcert
+            {
+                name = formData["name"],
+                ticketsNum = int.Parse(formData["ticketsNum"]),
+                address = formData["address"],
+                ageLimit = 18,
+                dataTime = Convert.ToDateTime(formData["data"] + " " + formData["time"]),
+                performer = formData["performer"]
+            };
+            /*var concert = new PartyConcert
             {
                 //id = 1,
                 name = "Dvizh",
@@ -28,8 +38,9 @@ namespace ConcertTicketsBookingSystem.Controllers
                 ageLimit = 18,
                 dataTime = DateTime.Now,
                 performer = "DanaMoll"
-            };
-            await concertRepository.CreateAsync(concert);           
+            };*/
+            await concertRepository.CreateAsync(concert);
+            return "Ok";
             //await concertRepository.CreateAsync(concert);
         }
 

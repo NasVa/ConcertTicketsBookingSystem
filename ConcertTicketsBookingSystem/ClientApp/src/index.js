@@ -1,14 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-const rootElement = document.getElementById('root');
-const root = createRoot(rootElement);
+const root = document.getElementById('root');
 
-root.render(
+render(
   <BrowserRouter basename={baseUrl}>
     <App />
-  </BrowserRouter>);
+  </BrowserRouter>,
+  root
+  );
 

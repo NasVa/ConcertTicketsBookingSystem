@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { CreateConcert } from './components/CreateConcert';
+import  CreateConcert  from './components/CreateConcert';
 import { Home } from './components/Home';
 import { Layout } from './components/Layout';
 import './custom.css';
@@ -10,16 +10,10 @@ export default class App extends Component {
 
   render() {
     return (
-
         <Layout>
             <Routes>
             <Route exact path='/' element={<Home/>} />
             <Route path='/create-concert' element={<CreateConcert/>}/>
-        {/*<Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, ...rest } = route;
-            return <Route key={index} {...rest} element={element} />;
-          })}*/}
         </Routes>
       </Layout>
     );
