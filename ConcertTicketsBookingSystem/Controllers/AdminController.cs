@@ -19,29 +19,38 @@ namespace ConcertTicketsBookingSystem.Controllers
         [HttpPost("concert/create")]
         public async Task<string> CreateConcert([FromForm] IFormCollection formData)
         {
+            Concert concert = null;
 
-            var concert = new PartyConcert
+            if (formData["concertType"] == "Classic") { 
+                concert = new ClassicConcert
+                {
+                    compositor = formData["compositor"],
+                    voiceType = formData["voiceType"]
+                };
+            }
+            else if (formData["concertType"] == "Party")
             {
-                name = formData["name"],
-                ticketsNum = int.Parse(formData["ticketsNum"]),
-                address = formData["address"],
-                ageLimit = 18,
-                dataTime = Convert.ToDateTime(formData["data"] + " " + formData["time"]),
-                performer = formData["performer"]
-            };
-            /*var concert = new PartyConcert
+                concert = new PartyConcert
+                {
+                    ageLimit = byte.Parse(formData["ageLimit"])
+                };
+            }
+            else
             {
-                //id = 1,
-                name = "Dvizh",
-                ticketsNum = 100,
-                address = "Minsk",
-                ageLimit = 18,
-                dataTime = DateTime.Now,
-                performer = "DanaMoll"
-            };*/
+                concert = new OpenAirConcert
+                {
+                    path = formData["path"],
+                    headliner = formData["headliner"]
+                };
+            }
+            concert.name = formData["name"];
+            concert.ticketsNum = int.Parse(formData["ticketsNum"]);
+            concert.address = formData["address"];
+            concert.dataTime = Convert.ToDateTime(formData["data"] + " " + formData["time"]);
+            concert.performer = formData["performer"];
+            
             await concertRepository.CreateAsync(concert);
             return "Ok";
-            //await concertRepository.CreateAsync(concert);
         }
 
         [HttpGet]

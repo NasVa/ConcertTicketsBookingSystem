@@ -1,5 +1,5 @@
 import React, { useRef} from "react";
-import { YMaps, Map, Placemark, ZoomControl, SearchControl, GeolocationControl, FullscreenControl } from 'react-yandex-maps'
+import { YMaps, Map, ZoomControl, SearchControl, GeolocationControl, FullscreenControl } from 'react-yandex-maps'
 
 export default function YMap(props) {
     const searchControlRef = useRef(null);

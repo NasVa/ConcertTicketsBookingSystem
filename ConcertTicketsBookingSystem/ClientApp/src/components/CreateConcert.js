@@ -9,8 +9,12 @@ export default class CreateConcert extends Component {
   static displayName = CreateConcert.name;
  
 
-  types = {
-    t:["Classic", "Party", "OpenAir"]
+  concertTypes = {
+    types:["Classic", "Party", "OpenAir"]
+  }
+
+  voiceTypes = {
+    types:['soprano', 'mezzo-soprano', 'contralto', 'countertenor', 'tenor', 'baritone', 'bass']
   }
 
   constructor(props) {
@@ -21,7 +25,13 @@ export default class CreateConcert extends Component {
       ticketsNum : '',
       date : '',
       time : '',
-      address : ''
+      address : '',
+      concertType : 'Classic',
+      compositor : '',
+      voiceType : '',
+      ageLimit : 18,
+      path : '',
+      headliner : ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.onInputChange = this.onInputChange.bind(this)
@@ -46,22 +56,73 @@ export default class CreateConcert extends Component {
     })
     
   }
-  
+
+  onClickHandlerConcertType = event => {
+    
+    this.setState({
+      concertType : event.target.innerHTML
+    })
+  }
+
+  onClickHandler = event => {
+    
+    this.setState({
+      voiceType : event.target.innerHTML
+    })
+  }
+
   render() {    
+    const isClassicType = this.state.concertType == 'Classic'
+    const isPartyType = this.state.concertType == 'Party'
+    let typeForms;
+    if (isClassicType){
+      typeForms = 
+      <Form>
+        <Form.Group className="mb-3" controlId="compositorName">
+          <Form.Label>Compositor</Form.Label>
+          <Form.Control type="compositor-name" placeholder="Compositor name" value = {this.state.compositor} name = "compositor" onChange={this.onInputChange}/>
+        </Form.Group>
+        <DropdownButton name = "voiceType" variant="dark" id="voiceTypesDropdown" title="Voice type">
+          {this.voiceTypes.types.map(data=>(
+            <Dropdown.Item active={this.state.value === data} value={data} onClick={this.onClickHandler} >{data}</Dropdown.Item>
+          ))}
+         </DropdownButton>
+      </Form>
+    }
+    else if (isPartyType){
+      typeForms =
+      <Form>
+        <Form.Group className="mb-3" controlId="ageLimit">
+          <Form.Label>Age limit</Form.Label>
+          <Form.Control type="age-limit" placeholder='Age limit' name= "ageLimit" value = {this.state.ageLimit} onChange={this.onInputChange}/>
+        </Form.Group>
+      </Form>
+    }
+    else{
+      typeForms = 
+      <Form>
+        <Form.Group className="mb-3" controlId="path">
+          <Form.Label>How to get to</Form.Label>
+          <Form.Control type="path" placeholder="Path..." value = {this.state.path} name = "path" onChange={this.onInputChange}/>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="headliner">
+          <Form.Label>Headliner</Form.Label>
+          <Form.Control type="headliner" placeholder="Path..." value = {this.state.headliner} name = "headliner" onChange={this.onInputChange}/>
+        </Form.Group>
+      </Form>
+
+    }
+    
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Form.Group className="mb-3" controlId="formConcertName">
+        <Form.Group className="mb-3" controlId="concertName">
           <Form.Label>Concert name</Form.Label>
           <Form.Control type="concert-name" placeholder="Concert name" value = {this.state.name} name = "name" onChange={this.onInputChange}/>
-          {/* <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                </Form.Text> */}
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formTicketsNum">
+        <Form.Group className="mb-3" controlId="ticketsNum">
           <Form.Label>Tickets number</Form.Label>
           <Form.Control type="concert-tickets-num" placeholder='Tickets number' name= "ticketsNum" value = {this.state.ticketsNum} onChange={this.onInputChange}/>
         </Form.Group>
-        <Form.Control type="number" placeholder="Tickets num" />
         <Form.Group className="mb-3" controlId="dateTime">
           <Form.Label>Date and time</Form.Label>
           <Form.Control type="date" placeholder="Date" name = "date" onChange={this.onInputChange}/>
@@ -71,44 +132,22 @@ export default class CreateConcert extends Component {
           <Form.Label>Rerformer</Form.Label>
           <Form.Control type="performer" placeholder="Performer" name = "performer" value = {this.state.performer} onChange={this.onInputChange}/>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
+        
+         <DropdownButton name = "concertType" variant="dark" id="dropdown" title="Concert type">
+          {this.concertTypes.types.map(data=>(
+            <Dropdown.Item  value={data} onClick={this.onClickHandlerConcertType} >{data}</Dropdown.Item>
+          ))}
+         </DropdownButton>
+         {typeForms}
+        <YMap setAddress={this.updateAddress} />
         <Button variant="primary" type="submit">
           Create
         </Button>
-
-         <DropdownButton variant="dark" id="dropdown" title="Concert type">
-          {this.types.t.map(data=>(
-            <Dropdown.Item title={data}>{data}</Dropdown.Item>
-          ))}
-         </DropdownButton>
-        {/* <Select options={types}>
-          {types.values().map(data=>(
-            <option title={data}>{data}</option>
-          ))}
-          
-        </Select> */}
-        
-        
-            {/* <Map
-              state={{ center: [53.902735, 27.555696], zoom: 5 }}>
-              <Placemark geometry={[53.902735, 27.555696]} name = "address" onChange={this.onInputChange}/>
-              <ZoomControl options={{ float: "right" }} />
-              <SearchControl options={{ float: "right" }} 
-              />
-              <GeolocationControl options={{ float: "left" }} />
-              <FullscreenControl />
-            </Map> */}
-            <YMap setAddress={this.updateAddress} />
-          
-
-        
       </Form>
     );
   }
 
- 
+
   async sendConcertData(){
     
     const formData = new FormData();
@@ -118,6 +157,11 @@ export default class CreateConcert extends Component {
     formData.append("date", this.state.date);
     formData.append("time", this.state.time);
     formData.append("address", this.state.address);
+    formData.append("concertType", this.state.concertType);
+    formData.append("compositor", this.state.compositor);
+    formData.append("ageLimit", this.state.ageLimit);
+    formData.append("path", this.state.path);
+    formData.append("headliner", this.state.headliner);
     debugger;
     const response = await fetch("api/admin/concert/create",
     {
