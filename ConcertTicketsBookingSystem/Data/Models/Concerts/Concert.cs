@@ -8,6 +8,7 @@
         public int ticketsNum { get; set; }
         public DateTime dataTime { get; set; }
         public string address { get; set; }
+        public string Discriminator { get; set; }
 
     }
 }

@@ -33,6 +33,11 @@ namespace ConcertTicketsBookingSystem.Data.Repositories
             .ToListAsync();
         }
 
+        public async Task<List<Concert>> GetByTypeAsync(string type)
+        {
+            return await context.concerts.Where(concert => concert.Discriminator == type + "Concert").ToListAsync();
+        }
+
         public async Task<Concert> GetByIdAsync(int id)
         {
             return await context.concerts.FindAsync(id);
