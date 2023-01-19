@@ -26,16 +26,22 @@ namespace ConcertTicketsBookingSystem.Data.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<Concert>> GetAllAsync()
+        public async Task<List<Concert>> GetAllAsync(string search, byte page)
         {
+            int concertsByPage = 5;
             return await context.concerts
               .OrderByDescending(concert => concert.dataTime)
-            .ToListAsync();
+              .Where(i => i.name.Contains(search != null ? search : ""))
+              .Skip((page-1)* concertsByPage)
+              .Take(concertsByPage)
+              .ToListAsync();
         }
 
-        public async Task<List<Concert>> GetByTypeAsync(string type)
+        public async Task<List<Concert>> GetByTypeAsync(string type, string search)
         {
-            return await context.concerts.Where(concert => concert.Discriminator == type + "Concert").ToListAsync();
+            return await context.concerts.Where(concert => concert.Discriminator == type + "Concert")
+                .Where(i => i.name.Contains(search != null ? search : ""))
+                .ToListAsync();
         }
 
         public async Task<Concert> GetByIdAsync(int id)

@@ -8,8 +8,8 @@ namespace ConcertTicketsBookingSystem.Data.Interfaces
 
         Task UpdateAsync(Concert concert);
 
-        Task<List<Concert>> GetAllAsync();
-        Task<List<Concert>> GetByTypeAsync(string type);
+        Task<List<Concert>> GetAllAsync(string search, byte page);
+        Task<List<Concert>> GetByTypeAsync(string type, string search);
 
         Task<Concert> GetByIdAsync(int id);
 

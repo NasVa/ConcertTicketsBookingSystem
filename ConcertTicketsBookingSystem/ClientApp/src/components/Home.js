@@ -2,30 +2,36 @@ import React, { useEffect, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import TypesFiltr from './typesFiltr'
 import Card from 'react-bootstrap/Card';
+import { ConcertsPagination } from './Pagination/ConcertsPagination';
+import 'react-paginate'
 
-export  function Home(){
-  const [concerts, setConcerts] = useState(['fdfd']);
+export  function Home(searchValue){
+  const [concerts, setConcerts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [type, setType] = useState('All');
-
+  const [page, setPage] = useState(1);
+  const search = searchValue ? `search=${new String(searchValue.searchValue).toLowerCase()}` : '';
 
   useEffect(() => {
-    console.log(type)
-  fetch("/api/home?type=" + type)
+  fetch(`/api/home?type=${type}&${search}&page=${page}`)
     .then( (responce) => responce.json())
     .then( (arr) => {
       setConcerts(arr);
       setLoading(false);
     })
-    console.log(concerts)
-  },[type])
+    //console.log(concerts)
+  },[type, searchValue, page])
 
- 
+// const filteredConcerts = concerts.filter( concert =>{
+//   if (concert.name.toLowerCase().includes(new String(searchValue.searchValue).toLowerCase())){
+//     return true
+//   }
+//   return false
+// }) 
 
   const renderConcerts = () => {
     return (
       <div>
-        {/* <TypesFiltr />  */}
         {concerts.map(concert => (
           <Card>
             <Card.Header as="h5">{concert.name}</Card.Header>
@@ -40,6 +46,7 @@ export  function Home(){
         </Card>
         ))}
       </div>
+      
     );
     
   }
@@ -64,74 +71,7 @@ export  function Home(){
     <div>
       <TypesFiltr setType = {updateType} /> 
       {content}
+      <ConcertsPagination onPageChange={number => setPage(number)}/>
     </div>
   )  
 }
-
-
-// import React, { Component } from 'react';
-// import Button from 'react-bootstrap/Button';
-// import TypesFiltr from './typesFiltr'
-// import Card from 'react-bootstrap/Card';
-// import { data } from 'jquery';
-
-// export  class Home extends Component {
-//   static displayName = Home.name;
-
-//   constructor(props){
-//     super(props);
-//     this.state = { concerts: [], loading: true, type : 'All'}
-//     this.updateType = this.updateType.bind(this)
-//   }
-
-//   componentDidMount(){
-//     this.getConcerts();
-//   }
-
-//   static renderConcerts(concerts){
-//     return (
-
-//       <div>
-//         {/* <TypesFiltr />  */}
-//         {concerts.map(concert => (
-//           <Card>
-//             <Card.Header as="h5">{concert.name}</Card.Header>
-//             <Card.Body>
-//               <Card.Title>{concert.performer}</Card.Title>
-//               <Card.Text>
-//                 DateTime: {concert.dataTime}
-//                 Address: {concert.address}
-//               </Card.Text>
-//               <Button variant="primary">More information</Button>
-//             </Card.Body>
-//         </Card>
-//         ))}
-//       </div>
-
-//     );
-    
-//   }
-
-//   updateType(_type){
-//     this.setState({
-//       type: _type, loading: true
-//     })
-//     this.getConcerts()
-//   }
-
-//   render() {
-//     let content = this.state.loading ? <p>loading...</p> : Home.renderConcerts(this.state.concerts);
-//       return (
-//         <div>
-//         <TypesFiltr setType = {this.updateType} /> 
-//         {content}
-//         </div>
-//     );
-//   }
-
-//   async getConcerts(){
-//     const responce = await fetch("/api/home/" + this.state.type);
-//     const data = await responce.json()
-//     this.setState({concerts: data, loading: false});
-//   }
-// }

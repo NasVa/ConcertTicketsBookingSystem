@@ -21,10 +21,10 @@ namespace ConcertTicketsBookingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Concert>> Index(string type)
+        public async Task<List<Concert>> GetConcerts(string type, string? search, byte page)
              
         {
-            var concerts = type == "All" ? await concertRepository.GetAllAsync() : await concertRepository.GetByTypeAsync(type);
+            var concerts = type == "All" ? await concertRepository.GetAllAsync(search, page) : await concertRepository.GetByTypeAsync(type, search);
             return concerts;
         }
         [HttpGet("{id}")]

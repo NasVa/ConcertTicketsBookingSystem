@@ -3,6 +3,7 @@ import { YMaps, Map, ZoomControl, SearchControl, GeolocationControl, FullscreenC
 
 export default function YMap(props) {
     const searchControlRef = useRef(null);
+
    
   const onResShow = () =>{
     if (searchControlRef.current){
@@ -11,7 +12,7 @@ export default function YMap(props) {
   }
 
   return (
-    <YMaps query={{ apikey: "my_key" }}>
+    <YMaps query={{ apikey: process.env.REACT_APP_YANDEX_API_KEY }}>
       <div className="YMap">
           <Map defaultState={{ center: [53.902735, 27.555696], zoom: 5 }}>
               <ZoomControl options={{ float: "right" }} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
@@ -11,7 +11,7 @@ export default function TypesFiltr(props){
     const onClickType = (_activeType) =>{
         setActiveType(_activeType)
         console.log(_activeType)
-        props.setType(categories[_activeType]) //the first is value (0,1,2..) the second is name of category
+        props.setType(categories[_activeType])
     }
 
     return(

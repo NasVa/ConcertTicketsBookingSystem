@@ -6,13 +6,16 @@
     "@googlemaps/react-wrapper": "^1.1.35",
     "@pbe/react-yandex-maps": "^1.2.2",
     "bootstrap": "^5.2.3",
+    "dotenv": "^16.0.3",
     "http-proxy-middleware": "^2.0.6",
     "jquery": "^3.6.0",
     "merge": "^2.1.1",
+    "node-sass": "^8.0.0",
     "oidc-client": "^1.11.5",
     "react": "^18.0.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.0.0",
+    "react-paginate": "^8.1.4",
     "react-redux": "^8.0.5",
     "react-router-bootstrap": "^0.26.1",
     "react-router-dom": "^6.3.0",
@@ -80,4 +83,5 @@
       "last 1 safari version"
     ]
   }
+ 
 }
